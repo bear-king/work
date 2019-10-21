@@ -72,7 +72,15 @@ class LoginHandler(tornado.web.RequestHandler):
             self.render('login.html',warning='您输入的密码错误！！')
 
 class UserInfoHandler(tornado.web.RequestHandler):
+    def get(self):
+        try:
+            user_id = int(self.get_cooker('user_id'))
+        except TypeError:
+            self.redirect('/user/login')
 
+            session = Session()
+            q_user = session.query(User)
+            user = q_user.filter_by(id:)
 
 
 
