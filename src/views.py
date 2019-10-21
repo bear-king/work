@@ -1,9 +1,9 @@
-import datatime
+import datetime
 from math import ceil
 from hashlib import sha256
 
 import tornado.web
-from sqlalchenmy.orm.exc import NOResultFound
+from sqlalchemy.orm.exc import NoResultFound
 from models import User,Weibo,Comment,Session
 
 
@@ -61,10 +61,10 @@ class LoginHandler(tornado.web.RequestHandler):
         try:
             user = q_user.filter_by(nickname=nickname).one()
         except NoResultFound:
-        self.render('Login.html',warning='您的用户名错误！')
+            self.render('Login.html',warning='您的用户名错误！')
 
         #检查密码
-        if user.password = safe_password:
+        if user.password == safe_password:
             self.set_cookie('user_id',str(user.id)) #服务器通知客户端设置一个叫'uid'的cookie 的值
             #跳转到用户信息页
             self.redirect('/user/info')
@@ -80,7 +80,8 @@ class UserInfoHandler(tornado.web.RequestHandler):
 
             session = Session()
             q_user = session.query(User)
-            user = q_user.filter_by(id:)
+            user = q_user.filter_by(id)
+            self.render('info.html',user=user)
 
 
 

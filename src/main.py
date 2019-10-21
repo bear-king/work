@@ -2,22 +2,16 @@
 
 import tornado.web
 import tornado.ioloop
-import tornado.option import pase_command_line
+from tornado.options import parse_command_line
 
 import views
 
 route = [
-        (r'/user/register',Views.RegisterHandler),
-        (r'/user/login',Views.LoginHandler),
-        (r'/user/info',Views.UserInfoHandler),
-
-        (r'/weibo/post',Views.PostWeiboHandler),
-        (r'/weibo/show',Views.ShowWeiboHandler),
-
-        (r'/comment/commit',Views.CommentCommitHandler),
-        (r'/comment/reply',Views.ComentReplyHandler),
+        (r'/user/register',views.RegisterHandler),
+        (r'/user/login',views.LoginHandler),
+        (r'/user/info',views.UserInfoHandler),
         ]
-web_app = tornado.web.Applicatin(
+web_app = tornado.web.Application(
         route,
         template_path = 'templates',
         static_path = 'statics',
