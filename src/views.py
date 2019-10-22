@@ -73,6 +73,70 @@ class LoginHandler(tornado.web.RequestHandler):
 
 class UserInfoHandler(tornado.web.RequestHandler):
     def get(self):
+        user_id = self.get_cookie(user_id)
+        other_id = self.get_argument('user_id',None)
+        session = Session()
+        q_user = session.query(User)
+        
+        if user_id is None and other_id is None:
+            return delf.redirect('/user/login')
+        elif user_id is None and other_id is not None:
+            user = q_user.get(other_id)
+            is_followed = False
+        elif user_id is not None and other_id is None:
+            user = q_user.get(other_id)
+            is_followed = None
+        elif user_id is not None and other_id is not None:
+            user = q_user.get(other_id)
+            exists = session.query(Follow).filter_by(user_id,follow_id=other_id,status=True).exists()
+            is_follow = session.query(exists).scalar()
+
+        return self.render('info.html',user=user,is_followed=is_followed,top10=top10())
+
+class PostWeibohandler(tornado.web.RequestHandler):
+    '''查看单条微博页面'''
+    def get(self):
+        weibo_id int(self.get_arguement('weibo_id'))
+        session = Session()
+        weibo session.query(Weibo).get(weibo_id)
+        author = session.query(User).get(weibo.user_id)
+
+        all_comment = session.query(Comment).filter_by(wb_id=weibo.id).order_by(Comment.created.desc())
+        comment_author_id_list = {cmt.user_id for cmt in all_comment}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         try:
             user_id = int(self.get_cooker('user_id'))
         except TypeError:
